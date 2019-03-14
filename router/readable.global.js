@@ -1,18 +1,21 @@
 /**
- * basic example
+ * Cross process example
+ * 用户登录后redis会有用户信息，用户请求接口的时候可以获取用户信息
+ * 为了简单演示，假设登录用户为zfx，zfx在访问接口
  */
-
-// string  => 'string' == typeof val 
-// buffer  =>  Buffer.isBuffer(val))
-// stream  => 'function' == typeof val.pipe
-
 const fs = require('fs')
+
+global.users.zfx = {
+  total: 0,
+  start: void 0
+}
 
 module.exports = async res => {
   const body = fs.createReadStream('./node.rar')
-  let start = Date.now()
-  let total = 0;
   res.setHeader('Content-Disposition', `attachment; filename="node.rar"`);
+  // 获取用户信息
+  const user = global.users.zfx
+  user.start = Date.now()
   
   body.on('error', (e) => {
     console.log('error', e)
@@ -25,7 +28,7 @@ module.exports = async res => {
   })
   
   const writeData = data => {
-    total++
+    user.total++
     if(res.write(data)) {
       read()
     } else {
@@ -34,23 +37,13 @@ module.exports = async res => {
   }
   
   const read = () => {
-    const now = Date.now()
     let data = body.read(1024);
     if (!data) return
-    const ms = start - now + 1000
-    if(ms > 0) {
-      if (total > 100) {
-        setTimeout(function () {
-          start = now
-          total = 0
-          writeData(data)
-        }, ms)
-      } else {
+    if (user.total > 100) {
+      setTimeout(function () {
         writeData(data)
-      }
+      }, user.start - Date.now() + 1000)
     } else {
-      start = now
-      total = 0
       writeData(data)
     }
   };
