@@ -1,5 +1,5 @@
 # Network-Speed-Control-by-nodejs
-display how to use nodejs control network speed
+display how to use nodejs control network speed  
 使用nodejs限制网速，此示例展示控制下载文件的网速
 
 ## use readable event listener  
