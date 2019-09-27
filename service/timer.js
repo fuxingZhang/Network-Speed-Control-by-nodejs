@@ -1,6 +1,6 @@
 /**
- * 正常情况下是重置redis内的hash数据
- * 而且需要单独开一个进程，拥有独立的event loop
+ * 一般情况下是重置redis内的hash数据
+ * 而且需要单独开一个进程给timer，拥有独立的event loop
  * 这里重置global作为示例
  */
 async function timer() {
