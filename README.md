@@ -3,10 +3,12 @@ display how to use nodejs control network speed
 使用nodejs限制网速，此示例展示控制下载文件的网速
 
 ## use readable event listener  
+使用readable事件实现
 > ./router/readable.js  
 > ./router/readable.global.js  
 
 ## use data event listener 
+使用data事件实现（不够精确）
 > ./router/data.js  
 > ./router/data.global.js  
 
